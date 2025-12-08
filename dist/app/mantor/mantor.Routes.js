@@ -1,8 +1,8 @@
-import express from "express";
+import { Router } from "express";
 import { MentorController } from "./mantor.Contlolar.js";
 import { validateMiddleware } from "../middelware/validetmidelware.js";
 import { mentorValidationSchema } from "./mantor.Validation.js";
-const router = express.Router();
+const router = Router();
 router.post("/create-mentor", validateMiddleware(mentorValidationSchema), MentorController.createMentorController);
 router.get("/", MentorController.getAllMentorsController);
 router.get("/:id", MentorController.getSingleMentorController);
