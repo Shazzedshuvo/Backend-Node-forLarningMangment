@@ -1,0 +1,68 @@
+import type { Request, Response } from "express";
+import { SuccessStoryService } from "./success.Sarvisess.js";
+
+// CREATE → নতুন Success Story
+export const createSuccessStoryController = async (req: Request, res: Response) => {
+  try {
+    const story = await SuccessStoryService.createSuccessStoryService(req.body);
+    res.status(201).json({ success: true, message: "Story created successfully", data: story });
+  } catch (error: any) {
+    res.status(500).json({ success: false, message: error.message });
+  }
+};
+
+// GET ALL
+export const getAllSuccessStoriesController = async (_req: Request, res: Response) => {
+  try {
+    const stories = await SuccessStoryService.getAllSuccessStoriesService();
+    res.status(200).json({ success: true, data: stories });
+  } catch (error: any) {
+    res.status(500).json({ success: false, message: error.message });
+  }
+};
+
+// GET SINGLE
+export const getSingleSuccessStoryController = async (req: Request, res: Response) => {
+  try {
+
+    const id = req.params.id
+    const story = await SuccessStoryService.getSingleSuccessStoryService(id as string);
+    if (!story) return res.status(404).json({ success: false, message: "Story not found" });
+    res.status(200).json({ success: true, data: story });
+  } catch (error: any) {
+    res.status(500).json({ success: false, message: error.message });
+  }
+};
+
+// UPDATE
+export const updateSuccessStoryController = async (req: Request, res: Response) => {
+  try {
+    const id = req.params.id
+    const story = await SuccessStoryService.updateSuccessStoryService(id as string , req.body);
+    if (!story) return res.status(404).json({ success: false, message: "Story not found" });
+    res.status(200).json({ success: true, message: "Story updated successfully", data: story });
+  } catch (error: any) {
+    res.status(500).json({ success: false, message: error.message });
+  }
+};
+
+// DELETE
+export const deleteSuccessStoryController = async (req: Request, res: Response) => {
+  try {
+    const id = req.params.id
+    const story = await SuccessStoryService.deleteSuccessStoryService(id as string);
+    if (!story) return res.status(404).json({ success: false, message: "Story not found" });
+    res.status(200).json({ success: true, message: "Story deleted successfully", data: story });
+  } catch (error: any) {
+    res.status(500).json({ success: false, message: error.message });
+  }
+};
+
+// Export all controllers as a single object
+export const SuccessStoryController = {
+  createSuccessStoryController,
+  getAllSuccessStoriesController,
+  getSingleSuccessStoryController,
+  updateSuccessStoryController,
+  deleteSuccessStoryController,
+};
